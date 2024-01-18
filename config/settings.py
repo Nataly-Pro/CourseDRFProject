@@ -176,6 +176,18 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
 ]
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+        'basic': {
+            'type': 'basic'
+        }
+    }
+}
 
 TG_BOT_API_KEY = os.getenv('TG_BOT_API_KEY')
 TG_CHAT_ID = os.getenv('TG_CHAT_ID')
