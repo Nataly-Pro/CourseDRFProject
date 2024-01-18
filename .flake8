@@ -1,0 +1,9 @@
+[flake8]
+exclude =
+    migrations,
+    .git,
+    .gitignore,
+    venv,
+    .env
+max-line-length = 120
+ignore =
