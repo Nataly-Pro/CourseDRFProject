@@ -76,6 +76,9 @@ class HabitsAPITestCase(APITestCase):
              'is_public': True, 'related_to': None
              }
         )
+        serializer = HabitSerializer(data=data)
+        self.assertTrue(serializer.is_valid(raise_exception=True))
+        self.assertTrue(Habit.objects.get(pk=3).owner == self.user)
 
     def test_serializers_validation(self):
         """ Тестирование проверок при создании/редактировании привычки """
