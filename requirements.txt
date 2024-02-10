@@ -14,7 +14,7 @@ colorama==0.4.6
 coverage==7.4.0
 cron_descriptor==1.4.0
 distlib==0.3.8
-Django==4.2.9
+Django
 django-celery-beat==2.5.0
 django-cors-headers==4.3.1
 django-timezone-field==6.1.0
@@ -26,6 +26,7 @@ eventlet==0.34.3
 filelock==3.13.1
 flake8==6.1.0
 greenlet==3.0.3
+gunicorn
 identify==2.5.33
 idna==3.6
 inflection==0.5.1
@@ -36,8 +37,9 @@ nodeenv==1.8.0
 packaging==23.2
 pillow==10.2.0
 platformdirs==4.1.0
+pre-commit==3.6.0
 prompt-toolkit==3.0.43
-psycopg2==2.9.9
+psycopg2-binary
 pycodestyle==2.11.1
 pyflakes==3.1.0
 PyJWT==2.8.0
