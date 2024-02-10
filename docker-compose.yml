@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    env_file:
+      - .env
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/pgdata
+    command: -p ${POSTGRES_PORT}
+
+  app:
+    build: .
+    tty: true
+    command: bash -c "python3 manage.py migrate && python3 manage.py collectstatic && python3 manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  celery:
+    build: .
+    tty: true
+    command: celery -A config worker -l INFO
+    depends_on:
+      - redis
+      - app
+
+  celery-beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l info -S django
+    depends_on:
+      - db
+      - app
+
+volumes:
+  pg_data:
+
