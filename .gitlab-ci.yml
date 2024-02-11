@@ -5,6 +5,6 @@ deploy:
     - bash deploy.sh
   only:
     - main
-  tag:
+  tags:
     - run
 
