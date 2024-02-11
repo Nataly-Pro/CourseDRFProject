@@ -7,7 +7,7 @@ services:
       - '6379:6379'
 
   db:
-    image:  postgres:14.6-alpine
+    image:  postgres
     restart: always
     env_file:
       - .env
