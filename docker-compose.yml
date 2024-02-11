@@ -25,7 +25,9 @@ services:
   app:
     build: .
     tty: true
-    command: bash -c "python3 manage.py migrate && python3 manage.py collectstatic && python3 manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 manage.py migrate 
+             && python3 manage.py collectstatic --no-input 
+             && python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
