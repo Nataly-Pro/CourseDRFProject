@@ -9,15 +9,14 @@ services:
   db:
     image: postgres
     restart: always
-    ports:
-      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+
     env_file:
       - .env
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
-    command: -p ${POSTGRES_PORT}
+    # command: -p ${POSTGRES_PORT}
 
   app:
     build: .
