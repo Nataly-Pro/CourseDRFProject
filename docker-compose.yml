@@ -20,7 +20,6 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
-    # command: -p ${POSTGRES_PORT}
 
   app:
     build: .
