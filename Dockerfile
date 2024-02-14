@@ -8,4 +8,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "manage.py", "runserver"]
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", ":8000", "config.wsgi:application"]

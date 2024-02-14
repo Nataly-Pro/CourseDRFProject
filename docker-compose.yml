@@ -1,10 +1,13 @@
 version: '3'
 
 services:
+
   redis:
     image: redis
     ports:
       - '6379:6379'
+    networks:
+      - nginx_network
 
   db:
     image:  postgres
@@ -20,20 +23,23 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
+    networks:
+      - nginx_network
 
   app:
     build: .
+    restart: always
     tty: true
     command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
-    ports:
-      - '8000:8000'
     env_file:
       - .env
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - nginx_network
 
   celery:
     build: .
@@ -42,14 +48,34 @@ services:
     depends_on:
       - redis
       - app
+    networks:
+      - nginx_network
 
   celery-beat:
     build: .
+    restart: always
     tty: true
     command: celery -A config beat -l info -S django
     depends_on:
       - db
       - app
+    networks:
+      - nginx_network
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - '8000:80'
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: bridge
 
 volumes:
   pg_data:
